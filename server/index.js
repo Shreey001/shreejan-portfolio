@@ -11,8 +11,18 @@ const __dirname = dirname(__filename);
 const app = express();
 const port = process.env.PORT || 3001;
 
-// Middleware
-app.use(cors());
+// Updated CORS configuration
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173", // Vite dev server
+      "http://localhost:4173", // Vite preview
+      "https://your-frontend-domain.vercel.app", // Your deployed frontend
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

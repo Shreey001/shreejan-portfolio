@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FaReact, FaHeart } from "react-icons/fa";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
+
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const [likes, setLikes] = useState(0);
@@ -13,7 +15,7 @@ const Footer = () => {
   useEffect(() => {
     const fetchLikes = async () => {
       try {
-        const response = await fetch("http://localhost:3001/api/likes");
+        const response = await fetch(`${API_URL}/api/likes`);
         const data = await response.json();
         setLikes(data.likes);
 
@@ -36,7 +38,7 @@ const Footer = () => {
     if (!isLiking && !hasLiked) {
       setIsLiking(true);
       try {
-        const response = await fetch("http://localhost:3001/api/likes", {
+        const response = await fetch(`${API_URL}/api/likes`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
