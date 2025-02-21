@@ -1,0 +1,6 @@
+/*
+  X-Content-Type-Options: nosniff
+  Content-Type: text/javascript
+  
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable 
