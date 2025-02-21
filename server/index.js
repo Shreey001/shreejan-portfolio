@@ -1,51 +1,82 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import dotenv from "dotenv";
+import "dotenv/config";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-dotenv.config();
-
-// Use the MongoDB URI from .env
-mongoose
-  .connect(process.env.MONGODB_URI)
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.error("MongoDB connection error:", err));
-
-const Like = mongoose.model("Like", {
-  count: Number,
-  timestamp: { type: Date, default: Date.now },
-});
-
 const app = express();
+const port = process.env.PORT || 3001;
+
+// Middleware
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
+// MongoDB Connection
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(() => console.log("MongoDB Connected"))
+  .catch((err) => console.error("MongoDB Connection Error:", err));
+
+// Like Schema & Model
+const likeSchema = new mongoose.Schema({
+  count: { type: Number, default: 0 },
+});
+
+const Like = mongoose.model("Like", likeSchema);
+
+// API Routes
+app.get("/", (req, res) => {
+  res.json({ message: "Portfolio API Working ✨" });
+});
+
+// Get likes
 app.get("/api/likes", async (req, res) => {
   try {
-    const likeDoc = (await Like.findOne()) || (await Like.create({ count: 0 }));
-    res.json({ likes: likeDoc.count });
+    let like = await Like.findOne();
+    if (!like) {
+      like = await Like.create({ count: 0 });
+    }
+    res.json({ likes: like.count });
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch likes" });
+    console.error("Error fetching likes:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
+// Update likes
 app.post("/api/likes", async (req, res) => {
   try {
-    const likeDoc = (await Like.findOne()) || (await Like.create({ count: 0 }));
-    likeDoc.count += 1;
-    await likeDoc.save();
-    res.json({ likes: likeDoc.count });
+    let like = await Like.findOne();
+    if (!like) {
+      like = await Like.create({ count: 1 });
+    } else {
+      like.count += 1;
+      await like.save();
+    }
+    res.json({ likes: like.count });
   } catch (error) {
-    res.status(500).json({ error: "Failed to update likes" });
+    console.error("Error updating likes:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: "Something broke!" });
 });
+
+// Start server if not in Vercel environment
+if (process.env.NODE_ENV !== "production") {
+  app.listen(port, () => {
+    console.log(`Server running on port ${port} 🚀`);
+  });
+}
+
+// For Vercel deployment
+export default app;
