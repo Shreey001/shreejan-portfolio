@@ -8,8 +8,31 @@ import {
   AiOutlineLinkedin,
 } from "react-icons/ai";
 import { motion } from "framer-motion";
+import { FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
 
 const Hero = () => {
+  // Social media links
+  const socialLinks = [
+    {
+      name: "GitHub",
+      url: "https://github.com/Shreey001",
+      icon: FaGithub,
+      color: "hover:text-gray-100",
+    },
+    {
+      name: "LinkedIn",
+      url: "https://www.linkedin.com/in/shreejan-bhattarai",
+      icon: FaLinkedin,
+      color: "hover:text-blue-500",
+    },
+    {
+      name: "Instagram",
+      url: "https://www.instagram.com/i_am_shreey001",
+      icon: FaInstagram,
+      color: "hover:text-pink-500",
+    },
+  ];
+
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 to-transparent"></div>
@@ -51,7 +74,7 @@ const Hero = () => {
 
               <p className="text-gray-300 text-lg md:text-xl max-w-[500px] mx-auto md:mx-0 leading-relaxed">
                 A passionate fullstack developer crafting beautiful and
-                functional digital experiences with over 5 years of expertise.
+                functional digital experiences with over 2 years of expertise.
               </p>
             </div>
 
@@ -65,17 +88,33 @@ const Hero = () => {
               </button>
 
               <div className="flex gap-6 items-center justify-center sm:justify-start w-full sm:w-auto">
-                {[AiOutlineGithub, AiOutlineLinkedin, AiOutlineInstagram].map(
-                  (Icon, index) => (
-                    <a
-                      key={index}
-                      href="#"
-                      className="text-3xl text-gray-300 hover:text-purple-400 transition-all duration-300"
-                    >
-                      <Icon />
-                    </a>
-                  )
-                )}
+                <a
+                  href="https://github.com/Shreey001"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-3xl text-gray-300 hover:text-purple-400 transition-all duration-300"
+                  title="GitHub"
+                >
+                  <AiOutlineGithub />
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/shreejan-bhattarai"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-3xl text-gray-300 hover:text-purple-400 transition-all duration-300"
+                  title="LinkedIn"
+                >
+                  <AiOutlineLinkedin />
+                </a>
+                <a
+                  href="https://www.instagram.com/i_am_shreey001"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-3xl text-gray-300 hover:text-purple-400 transition-all duration-300"
+                  title="Instagram"
+                >
+                  <AiOutlineInstagram />
+                </a>
               </div>
             </div>
           </div>

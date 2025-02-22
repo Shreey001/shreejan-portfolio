@@ -27,13 +27,13 @@ const Contact = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <div className="absolute bottom-4 left-4 flex gap-3">
                   <a
-                    href="#"
+                    href="https://github.com/Shreey001"
                     className="text-white hover:text-purple-400 transition-colors"
                   >
                     <AiFillGithub size={24} />
                   </a>
                   <a
-                    href="#"
+                    href="https://www.linkedin.com/in/shreejan-bhattarai"
                     className="text-white hover:text-purple-400 transition-colors"
                   >
                     <AiFillLinkedin size={24} />
@@ -79,17 +79,10 @@ const Contact = () => {
               >
                 <p className="text-gray-300 leading-relaxed">
                   Hey there! I'm Shreejan, a passionate Full Stack Developer
-                  with a creative edge in UI/UX design. With 5+ years of
-                  hands-on experience, I've mastered the art of crafting
-                  seamless digital experiences that not only look stunning but
-                  also deliver exceptional performance.
-                </p>
-                <p className="text-gray-300 leading-relaxed">
-                  My expertise spans across modern web technologies, and I take
-                  pride in building scalable solutions that make a real impact.
-                  Whether it's architecting robust backend systems or designing
-                  intuitive user interfaces, I bring both technical excellence
-                  and creative flair to every project.
+                  with a creative edge in UI/UX design. With 2+ years of
+                  hands-on experience, Ilove the art of crafting seamless
+                  digital experiences that not only look stunning but also
+                  deliver exceptional performance.
                 </p>
               </motion.div>
             </div>
