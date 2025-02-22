@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import {
   AiFillLinkedin,
@@ -10,9 +10,13 @@ import {
 } from "react-icons/ai";
 import { FiMail, FiUser, FiMessageSquare } from "react-icons/fi";
 import profile from "../assets/profile.png";
+import emailjs from "@emailjs/browser";
 
 const Contact = () => {
   const [isHighlighted, setIsHighlighted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState({ type: "", message: "" });
+  const form = useRef();
 
   useEffect(() => {
     const handleHash = () => {
@@ -25,6 +29,36 @@ const Contact = () => {
     window.addEventListener("hashchange", handleHash);
     return () => window.removeEventListener("hashchange", handleHash);
   }, []);
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus({ type: "", message: "" });
+
+    emailjs
+      .sendForm(
+        "service_xvbis5q", // Replace with your EmailJS service ID
+        "template_xm82uk2", // Replace with your EmailJS template ID
+        form.current,
+        "ioD48n_66IBd-ernp" // Replace with your EmailJS public key
+      )
+      .then((result) => {
+        setSubmitStatus({
+          type: "success",
+          message: "Message sent successfully! I will get back to you soon.",
+        });
+        form.current.reset();
+      })
+      .catch((error) => {
+        setSubmitStatus({
+          type: "error",
+          message: "Something went wrong. Please try again later.",
+        });
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      });
+  };
 
   return (
     <div className="px-6 py-20 max-w-7xl mx-auto" id="contact">
@@ -228,6 +262,8 @@ const Contact = () => {
           }}
         >
           <motion.form
+            ref={form}
+            onSubmit={sendEmail}
             className={`relative bg-gray-900/30 backdrop-blur-sm p-6 rounded-2xl border 
               transition-all duration-500 ${
                 isHighlighted
@@ -257,19 +293,22 @@ const Contact = () => {
                   icon: FiUser,
                   placeholder: "Your Name",
                   type: "text",
-                  name: "name",
+                  name: "from_name",
+                  required: true,
                 },
                 {
                   icon: FiMail,
                   placeholder: "Your Email",
                   type: "email",
-                  name: "email",
+                  name: "reply_to",
+                  required: true,
                 },
                 {
                   icon: FiMessageSquare,
                   placeholder: "Your Message",
                   type: "textarea",
                   name: "message",
+                  required: true,
                 },
               ].map((field, index) => (
                 <motion.div
@@ -285,6 +324,7 @@ const Contact = () => {
                       placeholder={field.placeholder}
                       name={field.name}
                       rows="4"
+                      required={field.required}
                       className="w-full pl-12 pr-4 py-3 bg-gray-800/50 rounded-xl border border-purple-500/20 focus:border-purple-500/50 outline-none text-gray-300 placeholder:text-gray-500"
                     />
                   ) : (
@@ -292,22 +332,44 @@ const Contact = () => {
                       type={field.type}
                       placeholder={field.placeholder}
                       name={field.name}
+                      required={field.required}
                       className="w-full pl-12 pr-4 py-3 bg-gray-800/50 rounded-xl border border-purple-500/20 focus:border-purple-500/50 outline-none text-gray-300 placeholder:text-gray-500"
                     />
                   )}
                 </motion.div>
               ))}
 
+              {/* Status Message */}
+              {submitStatus.message && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className={`text-sm ${
+                    submitStatus.type === "success"
+                      ? "text-green-400"
+                      : "text-red-400"
+                  }`}
+                >
+                  {submitStatus.message}
+                </motion.div>
+              )}
+
               <motion.button
                 type="submit"
-                className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-500 to-blue-500 text-white font-medium hover:opacity-90 transition-opacity"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                disabled={isSubmitting}
+                className={`w-full py-3 rounded-xl bg-gradient-to-r from-purple-500 to-blue-500 
+                  text-white font-medium transition-all ${
+                    isSubmitting
+                      ? "opacity-70 cursor-not-allowed"
+                      : "hover:opacity-90"
+                  }`}
+                whileHover={!isSubmitting ? { scale: 1.02 } : {}}
+                whileTap={!isSubmitting ? { scale: 0.98 } : {}}
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 transition={{ delay: 0.9 }}
               >
-                Send Message
+                {isSubmitting ? "Sending..." : "Send Message"}
               </motion.button>
             </div>
           </motion.form>
