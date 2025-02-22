@@ -1,6 +1,12 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { AiFillLinkedin, AiFillGithub } from "react-icons/ai";
+import {
+  AiFillLinkedin,
+  AiFillGithub,
+  AiOutlineTwitter,
+  AiFillInstagram,
+  AiFillYoutube,
+} from "react-icons/ai";
 import { FiMail, FiUser, FiMessageSquare } from "react-icons/fi";
 import profile from "../assets/profile.png";
 
@@ -10,38 +16,90 @@ const Contact = () => {
       <div className="grid md:grid-cols-12 gap-8">
         {/* Profile Image Section */}
         <motion.div
-          className="md:col-span-3"
+          className="md:col-span-3 w-[180px] md:w-auto mx-auto md:mx-0"
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
+          {/* Profile Image */}
           <div className="relative group">
             <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/50 via-purple-400/50 to-blue-600/50 rounded-2xl blur opacity-50 group-hover:opacity-75 transition duration-1000"></div>
             <div className="relative">
               <img
                 src={profile}
                 alt="Shreejan Bhattarai"
-                className="w-full aspect-square rounded-2xl object-cover border-2 border-purple-500/20"
+                className="w-[180px] md:w-full aspect-square rounded-2xl object-cover border-2 border-purple-500/20"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="absolute bottom-4 left-4 flex gap-3">
-                  <a
-                    href="https://github.com/Shreey001"
-                    className="text-white hover:text-purple-400 transition-colors"
-                  >
-                    <AiFillGithub size={24} />
-                  </a>
-                  <a
-                    href="https://www.linkedin.com/in/shreejan-bhattarai"
-                    className="text-white hover:text-purple-400 transition-colors"
-                  >
-                    <AiFillLinkedin size={24} />
-                  </a>
-                </div>
-              </div>
             </div>
           </div>
+
+          {/* Social Links - New Design */}
+          <motion.div
+            className="mt-6 flex flex-wrap justify-center gap-3"
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+          >
+            {[
+              {
+                icon: AiFillGithub,
+                href: "https://github.com/Shreey001",
+                color: "hover:text-gray-100 hover:bg-gray-800",
+                label: "GitHub",
+              },
+              {
+                icon: AiFillLinkedin,
+                href: "https://www.linkedin.com/in/shreejan-bhattarai",
+                color: "hover:text-blue-400 hover:bg-blue-500/10",
+                label: "LinkedIn",
+              },
+              {
+                icon: AiOutlineTwitter,
+                href: "https://x.com/shreeyjan001",
+                color: "hover:text-sky-400 hover:bg-sky-500/10",
+                label: "Twitter",
+              },
+              {
+                icon: AiFillInstagram,
+                href: "https://www.instagram.com/i_am_shreey001",
+                color: "hover:text-pink-500 hover:bg-pink-500/10",
+                label: "Instagram",
+              },
+              {
+                icon: AiFillYoutube,
+                href: "https://www.youtube.com/@shreey2926",
+                color: "hover:text-red-500 hover:bg-red-500/10",
+                label: "YouTube",
+              },
+            ].map((social, index) => (
+              <motion.a
+                key={social.label}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`relative group flex items-center justify-center w-10 h-10 
+                  rounded-full bg-purple-500/10 text-purple-400 
+                  transition-all duration-300 ${social.color}`}
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ delay: index * 0.1 }}
+                title={social.label}
+              >
+                <social.icon className="text-xl" />
+                <span
+                  className="absolute -bottom-8 left-1/2 -translate-x-1/2 
+                  whitespace-nowrap text-xs text-gray-400 opacity-0 
+                  group-hover:opacity-100 transition-opacity"
+                >
+                  {social.label}
+                </span>
+              </motion.a>
+            ))}
+          </motion.div>
         </motion.div>
 
         {/* About Section */}

@@ -137,121 +137,59 @@ const Portfolio = () => {
         </motion.div>
 
         {/* Projects Grid */}
-        <motion.div
-          layout
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
-          <AnimatePresence>
-            {filteredProjects.map((project, index) => (
-              <motion.div
-                key={project.title}
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.5 }}
-                className="relative group"
-                onHoverStart={() => setHoveredIndex(index)}
-                onHoverEnd={() => setHoveredIndex(null)}
-              >
-                <motion.div
-                  className="relative overflow-hidden rounded-xl bg-gray-800/50 backdrop-blur-sm h-full transform-gpu transition-all duration-300 border border-transparent hover:border-purple-500/30"
-                  whileHover={{
-                    boxShadow: "0 0 20px 2px rgba(147, 51, 234, 0.2)",
-                    transition: {
-                      duration: 0.4,
-                      ease: "easeOut",
-                    },
-                  }}
-                >
-                  <motion.div
-                    className="absolute -inset-[1px] rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    style={{
-                      background: "rgba(147, 51, 234, 0.1)",
-                      backdropFilter: "blur(8px)",
-                    }}
-                  />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          {filteredProjects.map((project, index) => (
+            <motion.div
+              key={project.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              className="bg-gray-900/50 backdrop-blur-sm rounded-xl overflow-hidden border border-purple-500/10 
+                hover:border-purple-500/30 transition-all duration-300
+                transform hover:-translate-y-1
+                h-[450px] md:h-[500px]
+                w-full max-w-[340px] mx-auto md:max-w-none"
+            >
+              <div className="relative h-[200px] md:h-[250px] w-full overflow-hidden">
+                <img
+                  src={project.img}
+                  alt={project.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
 
-                  <div className="relative z-10 rounded-xl h-full bg-gray-800/80 backdrop-blur-sm">
-                    <div className="relative h-48 overflow-hidden rounded-t-xl">
-                      <motion.img
-                        src={project.img}
-                        alt={project.title}
-                        className="w-full h-full object-cover"
-                        whileHover={{
-                          scale: 1.15,
-                          transition: { duration: 0.4 },
-                        }}
-                      />
-                    </div>
+              <div className="p-4 md:p-6 space-y-3 md:space-y-4">
+                <h3 className="text-lg md:text-xl font-semibold text-white">
+                  {project.title}
+                </h3>
+                <p className="text-sm md:text-base text-gray-400 line-clamp-3">
+                  {project.description}
+                </p>
 
-                    <div className="p-6 relative">
-                      <motion.h3
-                        className="text-xl font-semibold text-gray-100 mb-2"
-                        whileHover={{ x: 5 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        {project.title}
-                      </motion.h3>
-
-                      <motion.p
-                        className="text-gray-400 text-sm mb-4"
-                        initial={{ opacity: 0.8 }}
-                        whileHover={{ opacity: 1 }}
-                      >
-                        {project.description}
-                      </motion.p>
-
-                      <div className="flex items-center gap-4 mt-4">
-                        <motion.a
-                          href={project.links.site}
-                          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/10 text-purple-400 hover:bg-purple-500/20 transition-colors"
-                          whileHover={{
-                            scale: 1.05,
-                            x: 5,
-                            transition: { duration: 0.2 },
-                          }}
-                        >
-                          <AiOutlineLink className="text-lg" />
-                          <span className="text-sm">Live Demo</span>
-                        </motion.a>
-                        <motion.a
-                          href={project.links.github}
-                          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/10 text-purple-400 hover:bg-purple-500/20 transition-colors"
-                          whileHover={{
-                            scale: 1.05,
-                            x: 5,
-                            transition: { duration: 0.2 },
-                          }}
-                        >
-                          <AiOutlineGithub className="text-lg" />
-                          <span className="text-sm">Source</span>
-                        </motion.a>
-                      </div>
-                    </div>
-                  </div>
-
-                  <motion.div
-                    className="absolute inset-0 opacity-0 group-hover:opacity-20 pointer-events-none"
-                    style={{
-                      background:
-                        "linear-gradient(45deg, transparent, rgba(168, 85, 247, 0.4), transparent)",
-                      backgroundSize: "200% 200%",
-                    }}
-                    animate={{
-                      backgroundPosition: ["0% 0%", "100% 100%"],
-                    }}
-                    transition={{
-                      duration: 1.5,
-                      repeat: Infinity,
-                      ease: "linear",
-                    }}
-                  />
-                </motion.div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
+                <div className="flex items-center gap-3 pt-2 md:pt-4">
+                  <a
+                    href={project.links.site}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm md:text-base px-3 py-1.5 rounded-full bg-purple-500/20 
+                      hover:bg-purple-500/30 text-purple-400 transition-colors"
+                  >
+                    Live Demo
+                  </a>
+                  <a
+                    href={project.links.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm md:text-base px-3 py-1.5 rounded-full bg-gray-800 
+                      hover:bg-gray-700 text-gray-300 transition-colors"
+                  >
+                    GitHub
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </div>
   );

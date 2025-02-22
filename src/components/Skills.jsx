@@ -68,63 +68,52 @@ const Skills = () => {
         </motion.div>
 
         {/* Skills Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {skills.map((skillCategory, categoryIndex) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+          {skills.map((skillCategory, index) => (
             <motion.div
               key={skillCategory.category}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: categoryIndex * 0.2 }}
-              className="bg-gray-900/30 backdrop-blur-sm rounded-2xl border border-purple-500/10 p-6 hover:border-purple-500/30 transition-all duration-300"
+              transition={{ delay: index * 0.1 }}
+              className="bg-gray-900/50 backdrop-blur-sm rounded-xl p-4 md:p-6 border border-purple-500/10 
+                hover:border-purple-500/30 transition-all duration-300
+                w-full max-w-[300px] mx-auto md:max-w-none"
             >
-              <h3 className="text-xl font-semibold text-white mb-6">
+              {/* Category Header */}
+              <h3 className="text-lg md:text-xl font-semibold text-white mb-4">
                 {skillCategory.category}
               </h3>
 
-              <div className="space-y-5">
+              {/* Skills List */}
+              <div className="space-y-3">
                 {skillCategory.technologies.map((tech, techIndex) => (
-                  <motion.div
-                    key={tech.name}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.2 + techIndex * 0.1 }}
-                  >
-                    <div className="flex items-center gap-3 mb-2">
-                      <tech.icon className="text-2xl text-purple-400" />
-                      <span className="text-gray-300">{tech.name}</span>
-                      <span className="text-gray-400 text-sm ml-auto">
-                        {tech.level}%
-                      </span>
+                  <div key={tech.name} className="space-y-1">
+                    <div className="flex items-center justify-between text-sm">
+                      <div className="flex items-center gap-2">
+                        <tech.icon className="text-xl text-purple-400" />
+                        <span className="text-gray-300">{tech.name}</span>
+                      </div>
+                      <span className="text-purple-400">{tech.level}%</span>
                     </div>
-                    <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
+                    <div className="h-1.5 bg-gray-800 rounded-full overflow-hidden">
                       <motion.div
                         className="h-full bg-gradient-to-r from-purple-500 to-blue-500 rounded-full"
                         initial={{ width: 0 }}
                         whileInView={{ width: `${tech.level}%` }}
                         viewport={{ once: true }}
-                        transition={{
-                          duration: 1,
-                          delay: 0.5 + techIndex * 0.1,
-                        }}
+                        transition={{ delay: 0.2 + techIndex * 0.1 }}
                       />
                     </div>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
 
-              {/* Category Progress Indicator */}
-              <div className="mt-6 pt-6 border-t border-gray-800">
-                <motion.div
-                  className="flex items-center justify-between text-sm"
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 1 }}
-                >
+              {/* Category Progress */}
+              <div className="mt-4 md:mt-6 pt-4 md:pt-6 border-t border-gray-800">
+                <div className="flex items-center justify-between text-sm">
                   <span className="text-gray-400">Overall Proficiency</span>
-                  <span className="text-purple-400 font-medium">
+                  <span className="text-purple-400">
                     {Math.round(
                       skillCategory.technologies.reduce(
                         (acc, curr) => acc + curr.level,
@@ -133,7 +122,7 @@ const Skills = () => {
                     )}
                     %
                   </span>
-                </motion.div>
+                </div>
               </div>
             </motion.div>
           ))}
@@ -141,7 +130,7 @@ const Skills = () => {
 
         {/* Floating Badges */}
         <motion.div
-          className="mt-16 flex flex-wrap justify-center gap-4"
+          className="mt-8 md:mt-16 flex flex-wrap justify-center gap-3 md:gap-4"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -156,7 +145,8 @@ const Skills = () => {
           ].map((badge, index) => (
             <motion.div
               key={badge}
-              className="px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-sm"
+              className="px-3 md:px-4 py-1.5 md:py-2 rounded-full bg-purple-500/10 border 
+                border-purple-500/20 text-purple-400 text-xs md:text-sm"
               whileHover={{ scale: 1.05 }}
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
