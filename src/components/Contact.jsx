@@ -179,7 +179,7 @@ const Contact = () => {
                 <p className="text-gray-300 leading-relaxed">
                   Hey there! I'm Shreejan, a passionate Full Stack Developer
                   with a creative edge in UI/UX design. With 2+ years of
-                  hands-on experience, Ilove the art of crafting seamless
+                  hands-on experience, I love the art of crafting seamless
                   digital experiences that not only look stunning but also
                   deliver exceptional performance.
                 </p>
