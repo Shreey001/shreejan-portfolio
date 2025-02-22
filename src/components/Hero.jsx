@@ -9,6 +9,7 @@ import {
 } from "react-icons/ai";
 import { motion } from "framer-motion";
 import { FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
+import { Link } from "react-scroll";
 
 const Hero = () => {
   // Social media links
@@ -17,7 +18,7 @@ const Hero = () => {
       name: "GitHub",
       url: "https://github.com/Shreey001",
       icon: FaGithub,
-      color: "hover:text-gray-100",
+      color: "hover:text-white-500",
     },
     {
       name: "LinkedIn",
@@ -78,21 +79,54 @@ const Hero = () => {
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center pt-4">
-              <button
-                className="px-8 py-4 bg-purple-500 text-white rounded-lg font-medium 
-                          hover:bg-purple-600 transition-all duration-300 shadow-lg 
-                          hover:shadow-purple-500/25 w-full sm:w-auto"
-              >
-                Download CV
-              </button>
+            <div className="flex flex-col sm:flex-row gap-4 items-center justify-center sm:justify-start w-full">
+              {/* Primary Action Buttons */}
+              <div className="flex gap-3 w-full sm:w-auto">
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="flex-1 sm:flex-none"
+                >
+                  <Link
+                    to="contact"
+                    smooth={true}
+                    duration={500}
+                    offset={-70}
+                    className="cursor-pointer px-6 py-3 rounded-xl bg-purple-600
+                      text-white font-medium hover:opacity-90 transition-opacity inline-block w-full text-center"
+                    onClick={() => {
+                      // Add hash to URL for persistent highlight
+                      window.location.hash = "contact";
+                    }}
+                  >
+                    Let's Connect
+                  </Link>
+                </motion.div>
 
-              <div className="flex gap-6 items-center justify-center sm:justify-start w-full sm:w-auto">
+                <motion.button
+                  onClick={() =>
+                    window.open(
+                      "https://drive.google.com/file/d/1GvMFnckrIWv-DJ_XbK6_5BudGP1tGlji/view",
+                      "_blank"
+                    )
+                  }
+                  className="px-6 py-3 rounded-xl border border-gray-400 
+                    text-gray-300 font-medium hover:bg-purple-500/10 transition-all 
+                    flex-1 sm:flex-none"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  View CV
+                </motion.button>
+              </div>
+
+              {/* Social Links */}
+              <div className="flex gap-6 items-center justify-center sm:justify-start mt-4 sm:mt-0 sm:ml-4">
                 <a
                   href="https://github.com/Shreey001"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-3xl text-gray-300 hover:text-purple-400 transition-all duration-300"
+                  className="text-3xl text-gray-300 hover:text-[white] transition-all duration-300"
                   title="GitHub"
                 >
                   <AiOutlineGithub />
@@ -101,7 +135,7 @@ const Hero = () => {
                   href="https://www.linkedin.com/in/shreejan-bhattarai"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-3xl text-gray-300 hover:text-purple-400 transition-all duration-300"
+                  className="text-3xl text-gray-300 hover:text-[#0A66C2] transition-all duration-300"
                   title="LinkedIn"
                 >
                   <AiOutlineLinkedin />
@@ -110,7 +144,7 @@ const Hero = () => {
                   href="https://www.instagram.com/i_am_shreey001"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-3xl text-gray-300 hover:text-purple-400 transition-all duration-300"
+                  className="text-3xl text-gray-300 hover:text-[#E4405F] transition-all duration-300"
                   title="Instagram"
                 >
                   <AiOutlineInstagram />
