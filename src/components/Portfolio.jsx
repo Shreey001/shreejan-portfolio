@@ -50,7 +50,7 @@ const projects = [
     title: "Quiz App",
     description:
       "Quiz app with 10 question to test your knowledge and score at last using html,css and javascript  ",
-    category: "Mobile",
+    category: "Frontend",
     links: {
       site: "https://quizapp-pink-mu.vercel.app/",
       github: "https://github.com/Shreey001/quizapp",
