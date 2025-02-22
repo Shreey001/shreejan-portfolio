@@ -14,59 +14,59 @@ import project6 from "../assets/project6.png";
 const projects = [
   {
     img: project1,
-    title: "Modern UI Design",
+    title: "Social Media Clone",
     description:
-      "A sleek and responsive UI built with React and Tailwind CSS, featuring modern design principles and smooth animations.",
+      "A facebook like frontend clone with theme and color change feature and responsive design.",
     category: "Frontend",
     links: {
-      site: "#",
-      github: "#",
+      site: "https://socialmediaclone-one.vercel.app/",
+      github: "https://github.com/Shreey001/socialmediaclone",
     },
   },
   {
     img: project2,
-    title: "E-Commerce Platform",
+    title: "Trendify-Fashion E-Commerce Platform",
     description:
-      "Full-stack e-commerce solution with user authentication, payment processing, and order management.",
+      "Full-stack Fashion clothing e-commerce solution with user authentication, payment processing, and order management.",
     category: "Fullstack",
     links: {
-      site: "#",
-      github: "#",
+      site: "https://trendify-frontend-dusky.vercel.app/",
+      github: "https://github.com/Shreey001/Trendify-Fashion-Ecommerce-Site",
     },
   },
   {
     img: project4,
-    title: "Task Management App",
+    title: "E-Tea-Nepal-a multi-vendor Tea selling website",
     description:
-      "Collaborative task management platform with real-time updates and team collaboration features.",
+      "A fullstack tea buying and selling  website with buyer,seller and admin with order management and payment integration  .",
     category: "Fullstack",
     links: {
-      site: "#",
-      github: "#",
+      site: "https://e-tea-nepal.vercel.app/",
+      github: "https://github.com/Shreey001/eTeaNepal",
     },
   },
   {
     img: project5,
-    title: "Mobile Fitness App",
+    title: "Quiz App",
     description:
-      "Cross-platform mobile application for fitness tracking and workout planning.",
+      "Quiz app with 10 question to test your knowledge and score at last using html,css and javascript  ",
     category: "Mobile",
     links: {
-      site: "#",
-      github: "#",
+      site: "https://quizapp-pink-mu.vercel.app/",
+      github: "https://github.com/Shreey001/quizapp",
     },
   },
-  {
-    img: project6,
-    title: "Data Analytics Dashboard",
-    description:
-      "Interactive dashboard for visualizing and analyzing complex datasets with customizable charts.",
-    category: "Frontend",
-    links: {
-      site: "#",
-      github: "#",
-    },
-  },
+  // {
+  //   img: project6,
+  //   title: "Data Analytics Dashboard",
+  //   description:
+  //     "Interactive dashboard for visualizing and analyzing complex datasets with customizable charts.",
+  //   category: "Frontend",
+  //   links: {
+  //     site: "#",
+  //     github: "#",
+  //   },
+  // },
 ];
 
 const categories = ["All", "Frontend", "Fullstack", "Mobile"];

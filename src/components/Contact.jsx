@@ -94,9 +94,9 @@ const Contact = () => {
               transition={{ delay: 0.6 }}
             >
               {[
-                { number: "11+", label: "Projects" },
-                { number: "5+", label: "Years" },
-                { number: "30+", label: "Clients" },
+                { number: "7+", label: "Projects" },
+                { number: "2+", label: "Years" },
+                { number: "10+", label: "Clients" },
               ].map((stat, index) => (
                 <motion.div
                   key={stat.label}

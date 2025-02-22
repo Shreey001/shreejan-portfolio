@@ -4,9 +4,9 @@ import { BsBriefcase, BsCode, BsLaptop } from "react-icons/bs";
 
 const experiences = [
   {
-    title: "Senior Frontend Developer",
-    company: "Tech Innovators Inc.",
-    period: "2022 - Present",
+    title: "Full Stack Developer Intern",
+    company: "Lunar It Solutions pvt Ltd.",
+    period: "2025 - Present",
     description:
       "Leading the frontend development team in building scalable web applications using React and Next.js. Implemented modern UI/UX practices and improved performance metrics by 40%.",
     icon: BsLaptop,
@@ -19,18 +19,18 @@ const experiences = [
     ],
   },
   {
-    title: "Full Stack Developer",
-    company: "Digital Solutions Ltd.",
-    period: "2020 - 2022",
+    title: "Frontend Developer Intern ",
+    company: "Digital Pathsala Ltd.",
+    period: "2023 - 2024",
     description:
       "Developed and maintained full-stack applications using MERN stack. Led a team of 4 developers and successfully delivered 10+ projects.",
     icon: BsCode,
     skills: ["Node.js", "React", "MongoDB", "Express", "AWS"],
   },
   {
-    title: "Frontend Developer",
-    company: "Creative Web Agency",
-    period: "2018 - 2020",
+    title: "Frontend Developer Trainee",
+    company: "Butwal Multiple Campus",
+    period: "2022 - 2023",
     description:
       "Specialized in creating responsive and interactive web interfaces. Collaborated with designers to implement pixel-perfect designs.",
     icon: BsBriefcase,
