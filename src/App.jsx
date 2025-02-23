@@ -5,19 +5,18 @@ import Hero from "./components/Hero";
 import Navbar from "./components/Navbar";
 import Portfolio from "./components/Portfolio";
 import Skills from "./components/Skills";
-import ScrollProgress from "./components/ScrollProgress";
+import { TracingBeam } from "./components/TracingBeam";
 
 export default function App() {
   return (
-    <>
-      <ScrollProgress />
-      <Navbar/>
-      <Hero/>
-      <Skills/>
-      <Portfolio/>
-      <Experience/>
-      <Contact/>
-      <Footer/>
-    </>
-  )
+    <TracingBeam>
+      <Navbar />
+      <Hero />
+      <Skills />
+      <Portfolio />
+      <Experience />
+      <Contact />
+      <Footer />
+    </TracingBeam>
+  );
 }
