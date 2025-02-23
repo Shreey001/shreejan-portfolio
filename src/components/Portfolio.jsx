@@ -144,20 +144,27 @@ const Portfolio = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
+              onClick={() => window.open(project.links.site, "_blank")}
               className="bg-gray-900/50 backdrop-blur-sm rounded-xl overflow-hidden border border-purple-500/10 
                 hover:border-purple-500/30 transition-all duration-300
-                transform hover:-translate-y-1
-                h-[450px] md:h-[500px]
-                w-full max-w-[340px] mx-auto md:max-w-none"
+                transform hover:-translate-y-1 cursor-pointer
+                h-[450px] md:h-[500px] w-full max-w-[340px] mx-auto md:max-w-none"
             >
-              <div className="relative h-[200px] md:h-[250px] w-full overflow-hidden">
+              {/* Image container */}
+              <div className="relative h-[200px] md:h-[250px] w-full overflow-hidden group">
                 <img
                   src={project.img}
                   alt={project.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-500 
+                    group-hover:scale-110"
                 />
+                <div
+                  className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 
+                  transition-opacity duration-300 flex items-center justify-center"
+                ></div>
               </div>
 
+              {/* Content container */}
               <div className="p-4 md:p-6 space-y-3 md:space-y-4">
                 <h3 className="text-lg md:text-xl font-semibold text-white">
                   {project.title}
@@ -166,11 +173,13 @@ const Portfolio = () => {
                   {project.description}
                 </p>
 
+                {/* Links container */}
                 <div className="flex items-center gap-3 pt-2 md:pt-4">
                   <a
                     href={project.links.site}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
                     className="text-sm md:text-base px-3 py-1.5 rounded-full bg-purple-500/20 
                       hover:bg-purple-500/30 text-purple-400 transition-colors"
                   >
@@ -180,6 +189,7 @@ const Portfolio = () => {
                     href={project.links.github}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
                     className="text-sm md:text-base px-3 py-1.5 rounded-full bg-gray-800 
                       hover:bg-gray-700 text-gray-300 transition-colors"
                   >
