@@ -38,7 +38,7 @@ export const TracingBeam = ({ children, className = "" }) => {
       ref={ref}
       className={`relative w-full max-w-7xl mx-auto h-full ${className}`}
     >
-      <div className="absolute -left-4 md:-left-20 top-3">
+      <div className="hidden md:block absolute -left-4 lg:-left-20 top-3">
         <motion.div
           transition={{
             duration: 0.2,
@@ -50,7 +50,8 @@ export const TracingBeam = ({ children, className = "" }) => {
                 ? "none"
                 : "rgba(0, 0, 0, 0.24) 0px 3px 8px",
           }}
-          className="ml-[27px] h-4 w-4 rounded-full border border-purple-200 shadow-sm flex items-center justify-center"
+          className="ml-[27px] h-4 w-4 rounded-full border border-purple-200 
+            shadow-sm flex items-center justify-center"
         >
           <motion.div
             transition={{
@@ -76,6 +77,7 @@ export const TracingBeam = ({ children, className = "" }) => {
             fill="none"
             stroke="#9091A0"
             strokeOpacity="0.16"
+            strokeWidth="1"
             transition={{
               duration: 10,
             }}
@@ -84,7 +86,7 @@ export const TracingBeam = ({ children, className = "" }) => {
             d={`M 1 0V -36 l 18 24 V ${svgHeight * 0.8} l -18 24V ${svgHeight}`}
             fill="none"
             stroke="url(#gradient)"
-            strokeWidth="1.25"
+            strokeWidth="1"
             className="motion-reduce:hidden"
             transition={{
               duration: 10,
@@ -107,7 +109,9 @@ export const TracingBeam = ({ children, className = "" }) => {
           </defs>
         </svg>
       </div>
-      <div ref={contentRef}>{children}</div>
+      <div ref={contentRef} className="md:pl-12 lg:pl-0">
+        {children}
+      </div>
     </motion.div>
   );
 };
