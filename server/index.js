@@ -32,9 +32,16 @@ mongoose
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.error("MongoDB Connection Error:", err));
 
-// Like Schema & Model
+// Schemas & Models
+const visitorSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  timestamp: { type: Date, default: Date.now },
+  emoji: { type: String, default: '👋' }
+});
+
 const likeSchema = new mongoose.Schema({
   count: { type: Number, default: 0 },
+  visitors: [visitorSchema]
 });
 
 const Like = mongoose.model("Like", likeSchema);
@@ -44,31 +51,75 @@ app.get("/", (req, res) => {
   res.json({ message: "Portfolio API Working ✨" });
 });
 
-// Get likes
+// Get likes and visitors
 app.get("/api/likes", async (req, res) => {
   try {
     let like = await Like.findOne();
     if (!like) {
-      like = await Like.create({ count: 0 });
+      like = await Like.create({ count: 0, visitors: [] });
     }
-    res.json({ likes: like.count });
+    
+    // Get recent visitors, limited to last 5
+    const recentVisitors = like.visitors
+      .sort((a, b) => b.timestamp - a.timestamp)
+      .slice(0, 5)
+      .map(v => ({
+        name: v.name,
+        timestamp: v.timestamp,
+        emoji: v.emoji
+      }));
+
+    res.json({ 
+      likes: like.count,
+      visitors: recentVisitors
+    });
   } catch (error) {
     console.error("Error fetching likes:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 });
 
-// Update likes
+// Update likes and add visitor
 app.post("/api/likes", async (req, res) => {
   try {
+    const { name } = req.body;
+    
     let like = await Like.findOne();
     if (!like) {
-      like = await Like.create({ count: 1 });
+      like = await Like.create({ 
+        count: 1,
+        visitors: name ? [{ name, timestamp: new Date() }] : []
+      });
     } else {
       like.count += 1;
+      if (name) {
+        // Add random emoji from a curated list
+        const emojis = ['👋', '❤️', '✨', '🌟', '🎉', '🚀', '😊'];
+        const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+        
+        like.visitors.push({ 
+          name,
+          timestamp: new Date(),
+          emoji: randomEmoji
+        });
+      }
       await like.save();
     }
-    res.json({ likes: like.count });
+
+    // Get updated recent visitors
+    const recentVisitors = like.visitors
+      .sort((a, b) => b.timestamp - a.timestamp)
+      .slice(0, 5)
+      .map(v => ({
+        name: v.name,
+        timestamp: v.timestamp,
+        emoji: v.emoji
+      }));
+
+    res.json({ 
+      likes: like.count,
+      visitors: recentVisitors
+    });
   } catch (error) {
     console.error("Error updating likes:", error);
     res.status(500).json({ error: "Internal server error" });

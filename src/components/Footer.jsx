@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { FaReact, FaHeart } from "react-icons/fa";
+import React, { useState, useEffect, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { FaReact, FaHeart, FaTimes } from "react-icons/fa";
+import { format } from 'date-fns';
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
 
@@ -10,188 +11,269 @@ const Footer = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isLiking, setIsLiking] = useState(false);
   const [hasLiked, setHasLiked] = useState(false);
+  const [showNameModal, setShowNameModal] = useState(false);
+  const [visitorName, setVisitorName] = useState("");
+  const [recentVisitors, setRecentVisitors] = useState([]);
+  const [showVisitors, setShowVisitors] = useState(false);
 
-  // Load likes and check if user has already liked
+  // Load likes, visitors and check if user has already liked
   useEffect(() => {
-    const fetchLikes = async () => {
+    const fetchData = async () => {
       try {
         const response = await fetch(`${API_URL}/api/likes`);
         const data = await response.json();
         setLikes(data.likes);
+        setRecentVisitors(data.visitors || []);
 
         // Check if user has already liked
-        const userHasLiked =
-          localStorage.getItem("hasLikedPortfolio") === "true";
+        const userHasLiked = localStorage.getItem("hasLikedPortfolio") === "true";
         setHasLiked(userHasLiked);
-
         setIsLoading(false);
       } catch (error) {
-        console.error("Error fetching likes:", error);
+        console.error("Error fetching data:", error);
         setIsLoading(false);
       }
     };
 
-    fetchLikes();
+    fetchData();
   }, []);
 
-  const handleLike = async () => {
+  const handleLike = useCallback(() => {
     if (!isLiking && !hasLiked) {
       setIsLiking(true);
-      try {
-        const response = await fetch(`${API_URL}/api/likes`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+      setShowNameModal(true);
+    }
+  }, [isLiking, hasLiked]);
 
-        const data = await response.json();
-        setLikes(data.likes);
-        setHasLiked(true);
-        localStorage.setItem("hasLikedPortfolio", "true");
+  const handleNameSubmit = async (e) => {
+    e?.preventDefault();
+    try {
+      const response = await fetch(`${API_URL}/api/likes`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name: visitorName || undefined }),
+      });
 
-        // Add heart animation
-        const heart = document.createElement("div");
-        heart.className = "floating-heart";
-        heart.innerHTML = "❤️";
-        document.body.appendChild(heart);
+      const data = await response.json();
+      setLikes(data.likes);
+      setRecentVisitors(data.visitors || []);
+      setHasLiked(true);
+      localStorage.setItem("hasLikedPortfolio", "true");
+      setShowNameModal(false);
 
-        setTimeout(() => {
-          document.body.removeChild(heart);
-        }, 1000);
-      } catch (error) {
-        console.error("Error updating likes:", error);
-      } finally {
-        setIsLiking(false);
-      }
+      // Add heart animation
+      const heart = document.createElement("div");
+      heart.className = "floating-heart";
+      heart.innerHTML = "❤️";
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        document.body.removeChild(heart);
+      }, 1000);
+    } catch (error) {
+      console.error("Error updating likes:", error);
+    } finally {
+      setIsLiking(false);
+      setVisitorName("");
+    }
+  };
+
+  const formatTimestamp = (timestamp) => {
+    try {
+      return format(new Date(timestamp), 'MMM d, h:mm a');
+    } catch (error) {
+      return '';
     }
   };
 
   return (
-    <footer className="bg-gray-900/50 backdrop-blur-sm border-t border-gray-800">
-      <div className="max-w-7xl mx-auto px-4 py-6">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          {/* Left side - copyright */}
-          <motion.p
+    <>
+      <AnimatePresence>
+        {showNameModal && (
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-gray-400 text-sm"
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50"
+            onClick={(e) => e.target === e.currentTarget && setShowNameModal(false)}
           >
-            © {currentYear} Shreejan. All rights reserved.
-          </motion.p>
-
-          {/* Center - Made with React */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="flex items-center gap-2 text-gray-400 text-sm"
-          >
-            <span>Made with</span>
-            <FaReact className="text-lg text-purple-400 animate-spin-slow" />
-            <span>by</span>
-            <span className="text-purple-400">shreey</span>
-          </motion.div>
-
-          {/* Right side - Like Counter */}
-          <motion.div
-            className="flex items-center gap-3 relative group"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-          >
-            <motion.button
-              onClick={handleLike}
-              whileHover={{
-                scale: isLoading || isLiking || hasLiked ? 1 : 1.1,
-              }}
-              whileTap={{ scale: isLoading || isLiking || hasLiked ? 1 : 0.9 }}
-              className={`flex items-center gap-2 px-4 py-2 rounded-full 
-                ${
-                  isLoading || isLiking || hasLiked
-                    ? "bg-purple-500/10 cursor-not-allowed"
-                    : "bg-purple-500/20 hover:bg-purple-500/30 cursor-pointer"
-                } 
-                transition-all duration-300`}
-              disabled={isLoading || isLiking || hasLiked}
-            >
-              <motion.div
-                animate={
-                  isLiking
-                    ? {
-                        scale: [1, 1.2, 1],
-                        transition: { duration: 0.3 },
-                      }
-                    : {}
-                }
-              >
-                <FaHeart
-                  className={`text-lg ${
-                    hasLiked ? "text-purple-500" : "text-purple-400"
-                  }`}
-                />
-              </motion.div>
-              <span className="text-gray-400 text-sm font-medium">
-                {isLoading
-                  ? "Loading..."
-                  : `${likes} ${likes === 1 ? "Like" : "Likes"}`}
-              </span>
-            </motion.button>
-
-            {/* Inspiring Message */}
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1 }}
-              className="absolute -top-6 left-1/2 -translate-x-1/2 whitespace-nowrap"
+              initial={{ scale: 0.9, y: 20, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0.9, y: 20, opacity: 0 }}
+              className="bg-gray-800/95 backdrop-blur-sm p-6 rounded-xl max-w-md w-full mx-4 border border-gray-700/50"
             >
-              <div className="relative">
-                <span className="text-xs text-gray-400/80 tracking-wide font-light italic">
-                  {hasLiked
-                    ? "Thanks for your support! 💜"
-                    : "Leave some love if my work inspires you ✨"}
-                </span>
-                <motion.div
-                  className="absolute -bottom-1 left-0 h-[1px] bg-gradient-to-r from-transparent via-purple-400/30 to-transparent w-full"
-                  animate={{
-                    scaleX: [0, 1, 1, 0],
-                    opacity: [0, 1, 1, 0],
-                  }}
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    repeatDelay: 2,
-                  }}
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-xl font-semibold text-gray-100">Thanks for the like! ✨</h3>
+                <button
+                  onClick={() => setShowNameModal(false)}
+                  className="text-gray-400 hover:text-gray-300 transition-colors"
+                >
+                  <FaTimes />
+                </button>
+              </div>
+              <p className="text-gray-400 mb-4">
+                Would you like to share your name? It will be displayed in the recent visitors list.
+              </p>
+              <form onSubmit={handleNameSubmit} className="space-y-4">
+                <input
+                  type="text"
+                  value={visitorName}
+                  onChange={(e) => setVisitorName(e.target.value)}
+                  placeholder="Your name (optional)"
+                  className="w-full px-4 py-2 rounded-lg bg-gray-700/50 text-gray-100 border border-gray-600 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all placeholder:text-gray-500"
                 />
+                <div className="flex justify-end gap-3">
+                  <button
+                    type="button"
+                    onClick={() => handleNameSubmit()}
+                    className="px-4 py-2 rounded-lg bg-gray-700 text-gray-300 hover:bg-gray-600 transition-colors"
+                  >
+                    Skip
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={!visitorName.trim()}
+                    className="px-4 py-2 rounded-lg bg-purple-500 text-white hover:bg-purple-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+
+        {showVisitors && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-start justify-center z-[100] pt-20"
+            onClick={(e) => e.target === e.currentTarget && setShowVisitors(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 20, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0.9, y: 20, opacity: 0 }}
+              className="bg-gray-800/95 backdrop-blur-sm p-6 rounded-xl max-w-md w-full mx-4 border border-gray-700/50 overflow-auto flex flex-col relative max-h-[calc(100vh-12rem)]"
+            >
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-xl font-semibold text-gray-100">Recent Visitors</h3>
+                <button
+                  onClick={() => setShowVisitors(false)}
+                  className="text-gray-400 hover:text-gray-300 transition-colors"
+                >
+                  <FaTimes />
+                </button>
+              </div>
+              <div className="space-y-3 overflow-y-auto custom-scrollbar flex-1">
+                {recentVisitors.map((visitor, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    className="flex items-center gap-3 p-3 rounded-lg bg-gray-700/30 border border-gray-700/50"
+                  >
+                    <span className="text-2xl">{visitor.emoji}</span>
+                    <div className="flex-1">
+                      <p className="text-gray-200">{visitor.name}</p>
+                      <p className="text-gray-500 text-sm">{formatTimestamp(visitor.timestamp)}</p>
+                    </div>
+                  </motion.div>
+                ))}
               </div>
             </motion.div>
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      <footer className="bg-gray-900/50 backdrop-blur-sm border-t border-gray-800 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 py-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            {/* Left side - copyright */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-gray-400 text-sm"
+            >
+              © {currentYear} Shreejan. All rights reserved.
+            </motion.p>
+
+            {/* Center - Made with React */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex items-center gap-2 text-gray-400 text-sm"
+            >
+              <span>Made with</span>
+              <FaReact className="text-lg text-purple-400 animate-spin-slow" />
+              <span>by</span>
+              <span className="text-purple-400">shreey</span>
+            </motion.div>
+
+            {/* Right side - Like Counter */}
+            <motion.div
+              className="flex items-center gap-3 relative group"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+            >
+              <div className="relative">
+                <motion.button
+                  onClick={handleLike}
+                  disabled={isLoading || hasLiked}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all mx-auto ${hasLiked ? "bg-pink-500/20 text-pink-400" : "bg-gray-800 hover:bg-gray-700 text-gray-300"}`}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <FaHeart className={hasLiked ? "text-pink-400" : ""} />
+                  <span className="text-gray-300">{likes}</span>
+                </motion.button>
+
+                {/* Visitors Preview Tooltip */}
+                {recentVisitors.length > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="absolute bottom-full right-0 mb-2 w-64 bg-gray-800/95 backdrop-blur-sm rounded-lg p-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 shadow-xl border border-gray-700/50 z-10"
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <h4 className="text-sm font-medium text-gray-300">Recent Visitors</h4>
+                      <button
+                        onClick={() => setShowVisitors(true)}
+                        className="text-xs text-purple-400 hover:text-purple-300 transition-colors"
+                      >
+                        View All
+                      </button>
+                    </div>
+                    <div className="space-y-2">
+                      {recentVisitors.slice(0, 3).map((visitor, index) => (
+                        <motion.div
+                          key={index}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: index * 0.1 }}
+                          className="flex items-center gap-2 text-sm"
+                        >
+                          <span className="text-lg">{visitor.emoji}</span>
+                          <span className="text-gray-300">{visitor.name}</span>
+                          <span className="text-gray-500 text-xs ml-auto">
+                            {formatTimestamp(visitor.timestamp)}
+                          </span>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </div>
+            </motion.div>
+          </div>
         </div>
-      </div>
-
-      {/* Floating heart animation styles */}
-      <style>{`
-        .floating-heart {
-          position: fixed;
-          font-size: 1.5rem;
-          pointer-events: none;
-          animation: float-up 1s ease-out forwards;
-        }
-
-        @keyframes float-up {
-          0% {
-            transform: translate(-50%, -50%) scale(0);
-            opacity: 0;
-          }
-          50% {
-            transform: translate(-50%, -100%) scale(1.5);
-            opacity: 1;
-          }
-          100% {
-            transform: translate(-50%, -200%) scale(1);
-            opacity: 0;
-          }
-        }
-      `}</style>
-    </footer>
+      </footer>
+    </>
   );
 };
 
