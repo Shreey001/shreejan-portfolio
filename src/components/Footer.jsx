@@ -222,16 +222,35 @@ const Footer = () => {
               animate={{ opacity: 1, scale: 1 }}
             >
               <div className="relative">
-                <motion.button
-                  onClick={handleLike}
-                  disabled={isLoading || hasLiked}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all mx-auto ${hasLiked ? "bg-pink-500/20 text-pink-400" : "bg-gray-800 hover:bg-gray-700 text-gray-300"}`}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <FaHeart className={hasLiked ? "text-pink-400" : ""} />
-                  <span className="text-gray-300">{likes}</span>
-                </motion.button>
+                <div className="relative flex flex-col items-center">
+                  <AnimatePresence mode="wait">
+                    <motion.p
+                      key={hasLiked ? "thanks" : "support"}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute -top-7 whitespace-nowrap text-sm text-gray-400 "
+                    >
+                      {hasLiked ? (
+                        <span className="text-gray-200">Liked! 💜 thanks for your support! </span>
+                      ) : (
+                        <span className="text-gray-200">Support it by giving a like ✨</span>
+                      )}
+                    </motion.p>
+                  </AnimatePresence>
+                  
+                  <motion.button
+                    onClick={handleLike}
+                    disabled={isLoading || hasLiked}
+                    className={`flex items-center gap-2 px-6 py-2.5 rounded-full transition-all ${hasLiked ? "bg-purple-900/50" : "bg-purple-900/50 hover:bg-purple-800/50"}`}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <FaHeart className="text-purple-400 text-lg" />
+                    <span className="text-gray-200 font-medium">{likes} Likes</span>
+                  </motion.button>
+                </div>
 
                 {/* Visitors Preview Tooltip */}
                 {recentVisitors.length > 0 && (
