@@ -15,6 +15,7 @@ const Footer = () => {
   const [visitorName, setVisitorName] = useState("");
   const [recentVisitors, setRecentVisitors] = useState([]);
   const [showVisitors, setShowVisitors] = useState(false);
+  const [showVisitorTooltip, setShowVisitorTooltip] = useState(false);
 
   // Load likes, visitors and check if user has already liked
   useEffect(() => {
@@ -45,6 +46,26 @@ const Footer = () => {
       setShowNameModal(true);
     }
   }, [isLiking, hasLiked]);
+
+  const toggleVisitorTooltip = useCallback((e) => {
+    e.stopPropagation();
+    setShowVisitorTooltip((prev) => !prev);
+  }, []);
+
+  // Close tooltip when clicking outside
+  useEffect(() => {
+    const handleClickOutside = () => {
+      setShowVisitorTooltip(false);
+    };
+
+    if (showVisitorTooltip) {
+      document.addEventListener("click", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [showVisitorTooltip]);
 
   const handleNameSubmit = async (e) => {
     e?.preventDefault();
@@ -254,22 +275,36 @@ const Footer = () => {
                     </motion.p>
                   </AnimatePresence>
 
-                  <motion.button
-                    onClick={handleLike}
-                    disabled={isLoading || hasLiked}
-                    className={`flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full transition-all ${
-                      hasLiked
-                        ? "bg-purple-900/50"
-                        : "bg-purple-900/50 hover:bg-purple-800/50"
-                    }`}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <FaHeart className="text-purple-400 text-base sm:text-lg" />
-                    <span className="text-gray-200 text-sm sm:text-base font-medium">
-                      {likes} Likes
-                    </span>
-                  </motion.button>
+                  <div className="flex items-center">
+                    <motion.button
+                      onClick={handleLike}
+                      disabled={isLoading || hasLiked}
+                      className={`flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full transition-all ${
+                        hasLiked
+                          ? "bg-purple-900/50"
+                          : "bg-purple-900/50 hover:bg-purple-800/50"
+                      }`}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <FaHeart className="text-purple-400 text-base sm:text-lg" />
+                      <span className="text-gray-200 text-sm sm:text-base font-medium">
+                        {likes} Likes
+                      </span>
+                    </motion.button>
+
+                    {/* Visitor Toggle Button (visible on all screen sizes) */}
+                    {recentVisitors.length > 0 && (
+                      <motion.button
+                        onClick={toggleVisitorTooltip}
+                        className="ml-2 px-2 py-1 rounded-md bg-gray-800/70 text-xs text-purple-400 hover:text-purple-300 hover:bg-gray-700/70 transition-colors"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        {showVisitorTooltip ? "Hide" : "Visitors"}
+                      </motion.button>
+                    )}
+                  </div>
                 </div>
 
                 {/* Visitors Preview Tooltip */}
@@ -277,14 +312,24 @@ const Footer = () => {
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="absolute bottom-full right-0 mb-2 w-48 sm:w-64 bg-gray-800/95 backdrop-blur-sm rounded-lg p-2 sm:p-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 shadow-xl border border-gray-700/50 z-10"
+                    className={`absolute bottom-full right-0 mb-2 w-48 sm:w-64 bg-gray-800/95 backdrop-blur-sm rounded-lg p-2 sm:p-3 shadow-xl border border-gray-700/50 z-10 transition-all duration-200
+                      ${
+                        showVisitorTooltip
+                          ? "opacity-100 visible"
+                          : "opacity-0 invisible"
+                      }`}
+                    onClick={(e) => e.stopPropagation()}
                   >
                     <div className="flex items-center justify-between mb-2">
                       <h4 className="text-xs sm:text-sm font-medium text-gray-300">
                         Recent Visitors
                       </h4>
                       <button
-                        onClick={() => setShowVisitors(true)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setShowVisitors(true);
+                          setShowVisitorTooltip(false);
+                        }}
                         className="text-xs text-purple-400 hover:text-purple-300 transition-colors"
                       >
                         View All
