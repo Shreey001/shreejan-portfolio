@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaReact, FaHeart, FaTimes } from "react-icons/fa";
-import { format } from 'date-fns';
+import { format } from "date-fns";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
 
@@ -26,7 +26,8 @@ const Footer = () => {
         setRecentVisitors(data.visitors || []);
 
         // Check if user has already liked
-        const userHasLiked = localStorage.getItem("hasLikedPortfolio") === "true";
+        const userHasLiked =
+          localStorage.getItem("hasLikedPortfolio") === "true";
         setHasLiked(userHasLiked);
         setIsLoading(false);
       } catch (error) {
@@ -82,9 +83,9 @@ const Footer = () => {
 
   const formatTimestamp = (timestamp) => {
     try {
-      return format(new Date(timestamp), 'MMM d, h:mm a');
+      return format(new Date(timestamp), "MMM d, h:mm a");
     } catch (error) {
-      return '';
+      return "";
     }
   };
 
@@ -96,17 +97,21 @@ const Footer = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50"
-            onClick={(e) => e.target === e.currentTarget && setShowNameModal(false)}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 px-4"
+            onClick={(e) =>
+              e.target === e.currentTarget && setShowNameModal(false)
+            }
           >
             <motion.div
               initial={{ scale: 0.9, y: 20, opacity: 0 }}
               animate={{ scale: 1, y: 0, opacity: 1 }}
               exit={{ scale: 0.9, y: 20, opacity: 0 }}
-              className="bg-gray-800/95 backdrop-blur-sm p-6 rounded-xl max-w-md w-full mx-4 border border-gray-700/50"
+              className="bg-gray-800/95 backdrop-blur-sm p-4 sm:p-6 rounded-xl w-full max-w-md mx-auto border border-gray-700/50"
             >
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-xl font-semibold text-gray-100">Thanks for the like! ✨</h3>
+                <h3 className="text-xl font-semibold text-gray-100">
+                  Thanks for the like! ✨
+                </h3>
                 <button
                   onClick={() => setShowNameModal(false)}
                   className="text-gray-400 hover:text-gray-300 transition-colors"
@@ -115,7 +120,8 @@ const Footer = () => {
                 </button>
               </div>
               <p className="text-gray-400 mb-4">
-                Would you like to share your name? It will be displayed in the recent visitors list.
+                Would you like to share your name? It will be displayed in the
+                recent visitors list.
               </p>
               <form onSubmit={handleNameSubmit} className="space-y-4">
                 <input
@@ -151,17 +157,21 @@ const Footer = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-start justify-center z-[100] pt-20"
-            onClick={(e) => e.target === e.currentTarget && setShowVisitors(false)}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-start justify-center z-[100] p-4 pt-10 sm:pt-20"
+            onClick={(e) =>
+              e.target === e.currentTarget && setShowVisitors(false)
+            }
           >
             <motion.div
               initial={{ scale: 0.9, y: 20, opacity: 0 }}
               animate={{ scale: 1, y: 0, opacity: 1 }}
               exit={{ scale: 0.9, y: 20, opacity: 0 }}
-              className="bg-gray-800/95 backdrop-blur-sm p-6 rounded-xl max-w-md w-full mx-4 border border-gray-700/50 overflow-auto flex flex-col relative max-h-[calc(100vh-12rem)]"
+              className="bg-gray-800/95 backdrop-blur-sm p-4 sm:p-6 rounded-xl w-full max-w-md mx-auto border border-gray-700/50 overflow-auto flex flex-col relative max-h-[calc(100vh-8rem)]"
             >
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-xl font-semibold text-gray-100">Recent Visitors</h3>
+                <h3 className="text-xl font-semibold text-gray-100">
+                  Recent Visitors
+                </h3>
                 <button
                   onClick={() => setShowVisitors(false)}
                   className="text-gray-400 hover:text-gray-300 transition-colors"
@@ -181,7 +191,9 @@ const Footer = () => {
                     <span className="text-2xl">{visitor.emoji}</span>
                     <div className="flex-1">
                       <p className="text-gray-200">{visitor.name}</p>
-                      <p className="text-gray-500 text-sm">{formatTimestamp(visitor.timestamp)}</p>
+                      <p className="text-gray-500 text-sm">
+                        {formatTimestamp(visitor.timestamp)}
+                      </p>
                     </div>
                   </motion.div>
                 ))}
@@ -193,12 +205,12 @@ const Footer = () => {
 
       <footer className="bg-gray-900/50 backdrop-blur-sm border-t border-gray-800 relative z-10">
         <div className="max-w-7xl mx-auto px-4 py-6">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-4">
             {/* Left side - copyright */}
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="text-gray-400 text-sm"
+              className="text-gray-400 text-xs sm:text-sm order-3 md:order-1"
             >
               © {currentYear} Shreejan. All rights reserved.
             </motion.p>
@@ -207,17 +219,17 @@ const Footer = () => {
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="flex items-center gap-2 text-gray-400 text-sm"
+              className="flex items-center gap-2 text-gray-400 text-xs sm:text-sm order-2"
             >
               <span>Made with</span>
-              <FaReact className="text-lg text-purple-400 animate-spin-slow" />
+              <FaReact className="text-base sm:text-lg text-purple-400 animate-spin-slow" />
               <span>by</span>
               <span className="text-purple-400">shreey</span>
             </motion.div>
 
             {/* Right side - Like Counter */}
             <motion.div
-              className="flex items-center gap-3 relative group"
+              className="flex items-center gap-3 relative group order-1 md:order-3"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
             >
@@ -230,25 +242,33 @@ const Footer = () => {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute -top-7 whitespace-nowrap text-sm text-gray-400 "
+                      className="absolute -top-7 whitespace-nowrap text-xs sm:text-sm text-gray-400"
                     >
                       {hasLiked ? (
-                        <span className="text-gray-200">Liked! 💜 thanks for your support! </span>
+                        <span className="text-gray-200">Liked! 💜 thanks!</span>
                       ) : (
-                        <span className="text-gray-200">Support it by giving a like ✨</span>
+                        <span className="text-gray-200">
+                          Support with a like ✨
+                        </span>
                       )}
                     </motion.p>
                   </AnimatePresence>
-                  
+
                   <motion.button
                     onClick={handleLike}
                     disabled={isLoading || hasLiked}
-                    className={`flex items-center gap-2 px-6 py-2.5 rounded-full transition-all ${hasLiked ? "bg-purple-900/50" : "bg-purple-900/50 hover:bg-purple-800/50"}`}
+                    className={`flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full transition-all ${
+                      hasLiked
+                        ? "bg-purple-900/50"
+                        : "bg-purple-900/50 hover:bg-purple-800/50"
+                    }`}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <FaHeart className="text-purple-400 text-lg" />
-                    <span className="text-gray-200 font-medium">{likes} Likes</span>
+                    <FaHeart className="text-purple-400 text-base sm:text-lg" />
+                    <span className="text-gray-200 text-sm sm:text-base font-medium">
+                      {likes} Likes
+                    </span>
                   </motion.button>
                 </div>
 
@@ -257,10 +277,12 @@ const Footer = () => {
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="absolute bottom-full right-0 mb-2 w-64 bg-gray-800/95 backdrop-blur-sm rounded-lg p-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 shadow-xl border border-gray-700/50 z-10"
+                    className="absolute bottom-full right-0 mb-2 w-48 sm:w-64 bg-gray-800/95 backdrop-blur-sm rounded-lg p-2 sm:p-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 shadow-xl border border-gray-700/50 z-10"
                   >
                     <div className="flex items-center justify-between mb-2">
-                      <h4 className="text-sm font-medium text-gray-300">Recent Visitors</h4>
+                      <h4 className="text-xs sm:text-sm font-medium text-gray-300">
+                        Recent Visitors
+                      </h4>
                       <button
                         onClick={() => setShowVisitors(true)}
                         className="text-xs text-purple-400 hover:text-purple-300 transition-colors"
@@ -275,11 +297,15 @@ const Footer = () => {
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: index * 0.1 }}
-                          className="flex items-center gap-2 text-sm"
+                          className="flex items-center gap-2 text-xs sm:text-sm"
                         >
-                          <span className="text-lg">{visitor.emoji}</span>
-                          <span className="text-gray-300">{visitor.name}</span>
-                          <span className="text-gray-500 text-xs ml-auto">
+                          <span className="text-base sm:text-lg">
+                            {visitor.emoji}
+                          </span>
+                          <span className="text-gray-300 text-xs sm:text-sm truncate max-w-[100px] sm:max-w-[150px]">
+                            {visitor.name}
+                          </span>
+                          <span className="text-gray-500 text-xs ml-auto hidden sm:inline-block">
                             {formatTimestamp(visitor.timestamp)}
                           </span>
                         </motion.div>

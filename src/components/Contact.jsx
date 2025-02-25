@@ -37,10 +37,10 @@ const Contact = () => {
 
     emailjs
       .sendForm(
-        "service_xvbis5q", // Replace with your EmailJS service ID
-        "template_xm82uk2", // Replace with your EmailJS template ID
+        "service_xvbis5q",
+        "template_xm82uk2",
         form.current,
-        "ioD48n_66IBd-ernp" // Replace with your EmailJS public key
+        "ioD48n_66IBd-ernp"
       )
       .then((result) => {
         setSubmitStatus({
