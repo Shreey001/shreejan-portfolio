@@ -62,9 +62,6 @@ const Hero = () => {
   const { scrollYProgress } = useScroll();
   const y = useTransform(scrollYProgress, [0, 1], [0, -100]);
 
-  // Refs for interactive elements
-  const heroRef = useRef(null);
-
   // Animation variants for heading
   const container = {
     hidden: { opacity: 0 },
@@ -112,10 +109,7 @@ const Hero = () => {
   ];
 
   return (
-    <div
-      ref={heroRef}
-      className="min-h-screen w-full relative overflow-hidden bg-[#080808]"
-    >
+    <div className="min-h-screen w-full relative overflow-hidden bg-[#080808]">
       {/* Background elements */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#10002b]/30 via-[#240046]/20 to-[#3c096c]/10"></div>
 
@@ -140,9 +134,6 @@ const Hero = () => {
               transition={{ duration: 0.5 }}
             >
               <div className="group relative inline-flex items-center">
-                {/* Animated glow effect */}
-                <div className="absolute -inset-0.5 rounded-full bg-gradient-to-r from-purple-600/20 to-blue-600/20 blur opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-
                 {/* Content container */}
                 <div className="relative z-10 inline-flex items-center rounded-full py-1.5 px-5 bg-[#0a0a0a] backdrop-blur-md border border-purple-500/20">
                   {/* Gradient dot indicator */}
@@ -296,35 +287,6 @@ const Hero = () => {
           >
             <div className="scale-[0.9] md:scale-100 origin-center transform-gpu -mt-4 md:-mt-12 lg:mt-0">
               <Lanyard position={[0, 0, 20]} gravity={[0, -40, 0]} />
-            </div>
-
-            {/* Decorative Elements */}
-            <div className="absolute inset-0 pointer-events-none">
-              {/* Decorative circles */}
-              {[...Array(3)].map((_, i) => (
-                <motion.div
-                  key={`circle-${i}`}
-                  className={`absolute rounded-full opacity-20 border border-purple-500/30`}
-                  style={{
-                    width: `${250 + i * 80}px`,
-                    height: `${250 + i * 80}px`,
-                    top: "50%",
-                    left: "50%",
-                    x: "-50%",
-                    y: "-50%",
-                  }}
-                  animate={{
-                    scale: [1, 1.05, 1],
-                    opacity: [0.2, 0.15, 0.2],
-                  }}
-                  transition={{
-                    duration: 4 + i,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: i * 0.5,
-                  }}
-                />
-              ))}
             </div>
           </motion.div>
         </div>
