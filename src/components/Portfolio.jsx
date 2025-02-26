@@ -81,10 +81,16 @@ const Portfolio = () => {
 
   return (
     <div
-      className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 py-20"
+      className="min-h-screen w-full relative overflow-hidden bg-[#080808] py-20"
       id="portfolio"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Background elements */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#10002b]/30 via-[#240046]/20 to-[#3c096c]/10"></div>
+
+      {/* Subtle grid pattern */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:100px_100px]"></div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -142,7 +148,7 @@ const Portfolio = () => {
             <motion.div
               key={project.title}
               onClick={() => window.open(project.links.site, "_blank")}
-              className="bg-gray-900/50 backdrop-blur-sm rounded-xl overflow-hidden border border-purple-500/10 
+              className="bg-[#0a0a0a]/70 backdrop-blur-sm rounded-xl overflow-hidden border border-purple-500/10 
                 hover:border-purple-500/30 transition-all duration-300
                 transform hover:-translate-y-1 cursor-pointer
                 h-[450px] md:h-[500px] w-full max-w-[340px] mx-auto md:max-w-none"
@@ -177,8 +183,8 @@ const Portfolio = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="text-sm md:text-base px-3 py-1.5 rounded-full bg-purple-500/20 
-                      hover:bg-purple-500/30 text-purple-400 transition-colors"
+                    className="text-sm md:text-base px-3 py-1.5 rounded-full bg-gradient-to-r from-purple-600/20 to-blue-600/20
+                      hover:from-purple-600/30 hover:to-blue-600/30 text-purple-400 transition-colors"
                   >
                     Live Demo
                   </a>
@@ -187,8 +193,8 @@ const Portfolio = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="text-sm md:text-base px-3 py-1.5 rounded-full bg-gray-800 
-                      hover:bg-gray-700 text-gray-300 transition-colors"
+                    className="text-sm md:text-base px-3 py-1.5 rounded-full bg-[#0f0f0f]
+                      hover:bg-[#161616] text-gray-300 transition-colors"
                   >
                     GitHub
                   </a>
