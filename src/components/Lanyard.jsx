@@ -101,10 +101,10 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
     dir = new THREE.Vector3();
   const segmentProps = {
     type: "dynamic",
-    canSleep: true,
+    canSleep: false,
     colliders: false,
-    angularDamping: 4,
-    linearDamping: 4,
+    angularDamping: 6.0,
+    linearDamping: 6.0,
   };
   const { nodes, materials } = useGLTF(cardGLB);
   const texture = useTexture(lanyard);
@@ -147,6 +147,13 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
         y: vec.y - dragged.y,
         z: vec.z - dragged.z,
       });
+    } else {
+      if (card.current) {
+        const time = state.clock.getElapsedTime();
+        const swingForce = Math.sin(time * 2) * 0.015;
+        card.current.applyImpulse({ x: swingForce, y: 0, z: 0 }, true);
+        card.current.wakeUp();
+      }
     }
     if (fixed.current) {
       [j1, j2].forEach((ref) => {
