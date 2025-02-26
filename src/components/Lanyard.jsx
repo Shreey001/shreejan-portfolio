@@ -40,34 +40,43 @@ export default function Lanyard({
           gl.setClearColor(new THREE.Color(0x000000), transparent ? 0 : 1)
         }
       >
-        <ambientLight intensity={Math.PI} />
+        <ambientLight intensity={0.3} />
+        <directionalLight position={[10, 10, 5]} intensity={0.8} castShadow />
+        <pointLight position={[-10, -10, -5]} intensity={0.4} color="#ffffff" />
+        <spotLight
+          position={[5, 5, 5]}
+          angle={0.3}
+          penumbra={1}
+          intensity={0.6}
+          castShadow
+        />
         <Physics interpolate gravity={gravity} timeStep={1 / 60}>
           <Band />
         </Physics>
-        <Environment blur={0.75}>
+        <Environment blur={0.8}>
           <Lightformer
-            intensity={2}
+            intensity={1}
             color="white"
             position={[0, -1, 5]}
             rotation={[0, 0, Math.PI / 3]}
             scale={[100, 0.1, 1]}
           />
           <Lightformer
-            intensity={3}
+            intensity={1.5}
             color="white"
             position={[-1, -1, 1]}
             rotation={[0, 0, Math.PI / 3]}
             scale={[100, 0.1, 1]}
           />
           <Lightformer
-            intensity={3}
+            intensity={1.5}
             color="white"
             position={[1, 1, 1]}
             rotation={[0, 0, Math.PI / 3]}
             scale={[100, 0.1, 1]}
           />
           <Lightformer
-            intensity={10}
+            intensity={5}
             color="white"
             position={[-10, 0, 14]}
             rotation={[0, Math.PI / 2, Math.PI / 3]}
@@ -187,9 +196,9 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
           {...segmentProps}
           type={dragged ? "kinematicPosition" : "dynamic"}
         >
-          <CuboidCollider args={[0.8, 1.125, 0.01]} />
+          <CuboidCollider args={[0.9, 1.25, 0.01]} />
           <group
-            scale={2.25}
+            scale={2.5}
             position={[0, -1.2, -0.05]}
             onPointerOver={() => hover(true)}
             onPointerOut={() => hover(false)}
@@ -215,12 +224,26 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
                 metalness={0.8}
               />
             </mesh>
-            <mesh
-              geometry={nodes.clip.geometry}
-              material={materials.metal}
-              material-roughness={0.3}
-            />
-            <mesh geometry={nodes.clamp.geometry} material={materials.metal} />
+            <mesh geometry={nodes.clip.geometry}>
+              <meshPhysicalMaterial
+                color="#2a2a2a"
+                metalness={1}
+                roughness={0.1}
+                clearcoat={1}
+                clearcoatRoughness={0.1}
+                envMapIntensity={2}
+              />
+            </mesh>
+            <mesh geometry={nodes.clamp.geometry}>
+              <meshPhysicalMaterial
+                color="#2a2a2a"
+                metalness={1}
+                roughness={0.1}
+                clearcoat={1}
+                clearcoatRoughness={0.1}
+                envMapIntensity={2}
+              />
+            </mesh>
           </group>
         </RigidBody>
       </group>
