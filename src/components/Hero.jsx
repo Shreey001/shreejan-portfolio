@@ -111,10 +111,10 @@ const Hero = () => {
   return (
     <div className="min-h-screen w-full relative overflow-hidden bg-[#080808]">
       {/* Background elements */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#10002b]/30 via-[#240046]/20 to-[#3c096c]/10"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-[#240046]/40 via-[#3c096c]/30 to-[#5a189a]/20"></div>
 
       {/* Subtle grid pattern */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:100px_100px]"></div>
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:100px_100px]"></div>
 
       {/* Main content container */}
       <div className="relative z-10 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">

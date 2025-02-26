@@ -224,26 +224,12 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
                 metalness={0.8}
               />
             </mesh>
-            <mesh geometry={nodes.clip.geometry}>
-              <meshPhysicalMaterial
-                color="#2a2a2a"
-                metalness={1}
-                roughness={0.1}
-                clearcoat={1}
-                clearcoatRoughness={0.1}
-                envMapIntensity={2}
-              />
-            </mesh>
-            <mesh geometry={nodes.clamp.geometry}>
-              <meshPhysicalMaterial
-                color="#2a2a2a"
-                metalness={1}
-                roughness={0.1}
-                clearcoat={1}
-                clearcoatRoughness={0.1}
-                envMapIntensity={2}
-              />
-            </mesh>
+            <mesh
+              geometry={nodes.clip.geometry}
+              material={materials.metal}
+              material-roughness={0.3}
+            />
+            <mesh geometry={nodes.clamp.geometry} material={materials.metal} />
           </group>
         </RigidBody>
       </group>
