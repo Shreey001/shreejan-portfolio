@@ -161,10 +161,11 @@ const Portfolio = () => {
             <motion.div
               key={project.title}
               onClick={() => window.open(project.links.site, "_blank")}
-              className="bg-[#0a0a0a]/70 backdrop-blur-sm rounded-xl overflow-hidden border border-purple-500/10 
-                hover:border-purple-500/30 transition-all duration-300
-                transform hover:-translate-y-1 cursor-pointer
-                h-[450px] md:h-[500px] w-full max-w-[340px] mx-auto md:max-w-none"
+              className="bg-[#0a0a0a]/70 backdrop-blur-sm rounded-xl overflow-hidden 
+                border border-gray-800 hover:border-purple-500/50 transition-all duration-300
+                transform hover:-translate-y-1 cursor-pointer shadow-lg shadow-black/20
+                h-[450px] md:h-[500px] w-full max-w-[340px] mx-auto md:max-w-none
+                flex flex-col"
             >
               {/* Image container */}
               <div className="relative h-[200px] md:h-[250px] w-full overflow-hidden group">
@@ -178,10 +179,11 @@ const Portfolio = () => {
                   className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 
                   transition-opacity duration-300 flex items-center justify-center"
                 ></div>
+                <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-purple-500/30 to-transparent"></div>
               </div>
 
               {/* Content container */}
-              <div className="p-4 md:p-6 space-y-3 md:space-y-4">
+              <div className="p-5 md:p-6 space-y-3 md:space-y-4 flex-grow flex flex-col">
                 <h3 className="text-lg md:text-xl font-semibold text-white">
                   {project.title}
                 </h3>
@@ -189,17 +191,27 @@ const Portfolio = () => {
                   {project.description}
                 </p>
 
+                {/* Category badge */}
+                <div className="mt-1">
+                  <span className="inline-block px-2.5 py-1 text-xs font-medium rounded-md bg-purple-900/30 text-purple-300 border border-purple-800/30">
+                    {project.category}
+                  </span>
+                </div>
+
+                <div className="flex-grow"></div>
+
                 {/* Links container */}
-                <div className="flex items-center gap-3 pt-2 md:pt-4">
+                <div className="flex items-center gap-3 pt-3 mt-auto border-t border-gray-800/50">
                   <a
                     href={project.links.site}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
                     className="text-sm md:text-base px-3 py-1.5 rounded-full bg-gradient-to-r from-purple-600/20 to-blue-600/20
-                      hover:from-purple-600/30 hover:to-blue-600/30 text-purple-400 transition-colors"
+                      hover:from-purple-600/40 hover:to-blue-600/40 text-purple-400 transition-colors
+                      border border-purple-500/20 hover:border-purple-500/40 flex items-center gap-1"
                   >
-                    Live Demo
+                    <AiOutlineLink className="text-sm" /> Live Demo
                   </a>
                   <a
                     href={project.links.github}
@@ -207,9 +219,10 @@ const Portfolio = () => {
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
                     className="text-sm md:text-base px-3 py-1.5 rounded-full bg-[#0f0f0f]
-                      hover:bg-[#161616] text-gray-300 transition-colors"
+                      hover:bg-[#161616] text-gray-300 transition-colors border border-gray-800
+                      hover:border-gray-700 flex items-center gap-1"
                   >
-                    GitHub
+                    <AiOutlineGithub className="text-sm" /> GitHub
                   </a>
                 </div>
               </div>
