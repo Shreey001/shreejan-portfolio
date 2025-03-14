@@ -7,22 +7,12 @@ import {
 } from "react-icons/ai";
 import project1 from "../assets/project1.png";
 import project2 from "../assets/project2.png";
+import project3 from "../assets/project3.png";
 import project4 from "../assets/project4.png";
 import project5 from "../assets/project5.png";
 import project6 from "../assets/project6.png";
 
 const projects = [
-  {
-    img: project1,
-    title: "Social Media Clone",
-    description:
-      "A facebook like frontend clone with theme and color change feature and responsive design.",
-    category: "Frontend",
-    links: {
-      site: "https://socialmediaclone-one.vercel.app/",
-      github: "https://github.com/Shreey001/socialmediaclone",
-    },
-  },
   {
     img: project2,
     title: "Trendify-Fashion E-Commerce Platform",
@@ -32,6 +22,17 @@ const projects = [
     links: {
       site: "https://trendify-frontend-dusky.vercel.app/",
       github: "https://github.com/Shreey001/Trendify-Fashion-Ecommerce-Site",
+    },
+  },
+  {
+    img: project3,
+    title: "Vistagram-Connect and Inspire",
+    description:
+      "A fullstack social media platform with user authentication, post creation, and real-time updates.",
+    category: "Fullstack",
+    links: {
+      site: "https://vistagram.vercel.app",
+      github: "https://github.com/Shreey001/vistagram",
     },
   },
   {
@@ -46,6 +47,18 @@ const projects = [
     },
   },
   {
+    img: project6,
+    title: "Personal Portfolio",
+    description:
+      "A personal portfolio website to showcase my projects and skills.",
+    category: "Frontend",
+    links: {
+      site: "https://portfolio-seo-nu.vercel.app/",
+      github: "https://github.com/Shreey001/PortfolioSeo",
+    },
+  },
+
+  {
     img: project5,
     title: "Quiz App",
     description:
@@ -56,17 +69,17 @@ const projects = [
       github: "https://github.com/Shreey001/quizapp",
     },
   },
-  // {
-  //   img: project6,
-  //   title: "Data Analytics Dashboard",
-  //   description:
-  //     "Interactive dashboard for visualizing and analyzing complex datasets with customizable charts.",
-  //   category: "Frontend",
-  //   links: {
-  //     site: "#",
-  //     github: "#",
-  //   },
-  // },
+  {
+    img: project1,
+    title: "Social Media Clone",
+    description:
+      "A facebook like frontend clone with theme and color change feature and responsive design.",
+    category: "Frontend",
+    links: {
+      site: "https://socialmediaclone-one.vercel.app/",
+      github: "https://github.com/Shreey001/socialmediaclone",
+    },
+  },
 ];
 
 const categories = ["All", "Frontend", "Fullstack", "Mobile"];
