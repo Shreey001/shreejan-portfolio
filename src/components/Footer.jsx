@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaReact, FaHeart, FaTimes } from "react-icons/fa";
 import { format } from "date-fns";
@@ -68,7 +68,6 @@ const Footer = () => {
   }, [showVisitorTooltip]);
 
   const handleNameSubmit = async (e) => {
-    setHasLiked(true);
     e?.preventDefault();
     try {
       const response = await fetch(`${API_URL}/api/likes`, {
@@ -82,7 +81,7 @@ const Footer = () => {
       const data = await response.json();
       setLikes(data.likes);
       setRecentVisitors(data.visitors || []);
-      setHasLiked(false);
+      setHasLiked(true);
       localStorage.setItem("hasLikedPortfolio", "true");
       setShowNameModal(false);
 
@@ -163,10 +162,10 @@ const Footer = () => {
                   </button>
                   <button
                     type="submit"
-                    disabled={!visitorName.trim() || hasLiked}
+                    disabled={!visitorName.trim()}
                     className="px-4 py-2 rounded-lg bg-purple-500 text-white hover:bg-purple-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {hasLiked ? "Submitting..." : "Submit"}
+                    Submit
                   </button>
                 </div>
               </form>
