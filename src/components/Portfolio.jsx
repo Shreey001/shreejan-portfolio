@@ -11,7 +11,7 @@ import project3 from "../assets/project3.png";
 import project4 from "../assets/project4.png";
 import project5 from "../assets/project5.png";
 import project6 from "../assets/project6.png";
-
+import project7 from "../assets/project7.png";
 const projects = [
   {
     img: project2,
@@ -22,6 +22,16 @@ const projects = [
     links: {
       site: "https://trendify-frontend-dusky.vercel.app/",
       github: "https://github.com/Shreey001/Trendify-Fashion-Ecommerce-Site",
+    },
+  },
+  {
+    img: project7,
+    title: "Real Estate Nepal",
+    description: "A real estate website to showcase my projects and skills.",
+    category: "Fullstack",
+    links: {
+      site: "https://real-estate-nepal.vercel.app/",
+      github: "https://github.com/Shreey001/Real-Estate-Nepal",
     },
   },
   {
